@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -29,6 +30,10 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Load a progress bar when user opens app. This opens before inflating layout
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.activity_login);
 
         mSignUpTextView = (TextView) findViewById(R.id.signupText);
@@ -74,10 +79,16 @@ public class LoginActivity extends Activity {
                     dialog.show();
                 }
                 else {
+
+                    //Show progress bar
+                    setProgressBarIndeterminateVisibility(true);
+
                     //Logging in. Sending done() method to Parse
                     ParseUser.logInInBackground(username, password, new LogInCallback() {
                         @Override
                         public void done(ParseUser parseUser, ParseException e) {
+                            //Remove Progress bar indicator
+                            setProgressBarIndeterminate(false);
 
                             //If no exception
                             if (e == null) {
