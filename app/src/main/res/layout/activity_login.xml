@@ -12,7 +12,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/userNameField"
+        android:id="@+id/usernameField"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -27,7 +27,7 @@
         android:ems="10"
         android:id="@+id/passwordField"
         android:hint="@string/password_hint"
-        android:layout_below="@+id/userNameField"
+        android:layout_below="@+id/usernameField"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
