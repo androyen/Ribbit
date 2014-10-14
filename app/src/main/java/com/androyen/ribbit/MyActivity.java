@@ -5,13 +5,17 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.parse.ParseAnalytics;
+import com.parse.ParseUser;
 
 
 public class MyActivity extends Activity implements ActionBar.TabListener {
+
+    public static final String TAG = MyActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +24,21 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         ParseAnalytics.trackAppOpened(getIntent());
 
-        Intent intent = new Intent(this, LoginActivity.class);
+        //Check to see if user is logged in
+        ParseUser currentUser = ParseUser.getCurrentUser();
 
-        //Remote this Main screen from the back stack after starting intent. Prevents this screen from showing
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        if (currentUser == null) {
+
+            Intent intent = new Intent(this, LoginActivity.class);
+
+            //Remote this Main screen from the back stack after starting intent. Prevents this screen from showing
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        else {
+            Log.i(TAG, currentUser.getUsername());
+        }
     }
 
 
