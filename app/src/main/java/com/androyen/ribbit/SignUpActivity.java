@@ -22,7 +22,7 @@ public class SignUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        mUsername = (EditText) findViewById(R.id.userNameField);
+        mUsername = (EditText) findViewById(R.id.usernameField);
         mPassword = (EditText) findViewById(R.id.passwordField);
         mEmail = (EditText) findViewById(R.id.emailField);
         mSignUpButton = (Button) findViewById(R.id.signupButton);
@@ -45,11 +45,14 @@ public class SignUpActivity extends Activity {
                 //Check if input is empty blank
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
                        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-                       builder.setMessage(R.string.signup_error_message);
-                       builder.setTitle(R.string.signup_error_title);
+
+                       builder.setMessage(R.string.signup_error_message)
+                      .setTitle(R.string.signup_error_title)
                     //Parameter null lets dialog be dismissed
-                       builder.setPositiveButton(android.R.string.ok, null);
+                       .setPositiveButton(android.R.string.ok, null);
+
                        AlertDialog dialog = builder.create();
+                       dialog.show();
                 }
                 else {
                     //Create new user
