@@ -29,18 +29,22 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         if (currentUser == null) {
 
-            Intent intent = new Intent(this, LoginActivity.class);
-
-            //Remove this Main screen from the back stack after starting intent. Prevents this screen from showing
-            //Show the loging screen
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            navigateToLoginActivity();
         }
         else {
             //User is logged in
             Log.i(TAG, currentUser.getUsername());
         }
+    }
+
+    private void navigateToLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+
+        //Remove this Main screen from the back stack after starting intent. Prevents this screen from showing
+        //Show the loging screen
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 
@@ -56,10 +60,17 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+
+        //Log out button behavior in action overflow
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.action_logout) {
+
+            ParseUser.logOut();
+            navigateToLoginActivity();
+
         }
+
         return super.onOptionsItemSelected(item);
     }
 
