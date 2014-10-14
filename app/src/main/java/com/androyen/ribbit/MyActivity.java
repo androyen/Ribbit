@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.ParseAnalytics;
+
 
 public class MyActivity extends Activity implements ActionBar.TabListener {
 
@@ -15,6 +17,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+
+        ParseAnalytics.trackAppOpened(getIntent());
 
         Intent intent = new Intent(this, LoginActivity.class);
 
