@@ -17,6 +17,10 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         setContentView(R.layout.activity_my);
 
         Intent intent = new Intent(this, LoginActivity.class);
+
+        //Remote this Main screen from the back stack after starting intent. Prevents this screen from showing
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
