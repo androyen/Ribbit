@@ -24,19 +24,21 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         ParseAnalytics.trackAppOpened(getIntent());
 
-        //Check to see if user is logged in
+        //Check to see if user is logged in. If so, remove the
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         if (currentUser == null) {
 
             Intent intent = new Intent(this, LoginActivity.class);
 
-            //Remote this Main screen from the back stack after starting intent. Prevents this screen from showing
+            //Remove this Main screen from the back stack after starting intent. Prevents this screen from showing
+            //Show the loging screen
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
         else {
+            //User is logged in
             Log.i(TAG, currentUser.getUsername());
         }
     }

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.LogInCallback;
@@ -73,56 +74,36 @@ public class LoginActivity extends Activity {
                     dialog.show();
                 }
                 else {
-                    //Create new user
-                    ParseUser newUser = new ParseUser();
-                    newUser.setUsername(username);
-                    newUser.setPassword(password);
-                    newUser.signUpInBackground(new SignUpCallback() {
-
-                        //If signing up is successful, exception should be null
+                    //Logging in. Sending done() method to Parse
+                    ParseUser.logInInBackground(username, password, new LogInCallback() {
                         @Override
-                        public void done(ParseException e) {
+                        public void done(ParseUser parseUser, ParseException e) {
 
+                            //If no exception
                             if (e == null) {
-
-                                //After starting the new activity, clear this activity from the back stack so user does not navigate
+                                //Successful login! Take user to the inbox activity
                                 Intent intent = new Intent(LoginActivity.this, MyActivity.class);
+
+                                //Remove this login screen out of the back stack
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
-                            }
 
+
+                            }
                             else {
-                              //Logging in
-                                ParseUser.logInInBackground(username, password, new LogInCallback() {
-
-                                    @Override
-                                    public void done(ParseUser parseUser, ParseException e) {
-
-                                        //If login successful, user should be populated
-                                        if (e == null) {
-
-                                            //Start the main activity. Remove this activity from the back stack
-                                            Intent intent = new Intent(LoginActivity.this, MyActivity.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(intent);
-                                        }
-                                        else {
-                                            //Display alert dialog
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                            builder.setMessage(e.getMessage());
-                                            builder.setTitle(R.string.login_error_title);
-                                            builder.setPositiveButton(android.R.string.ok, null);
-                                            AlertDialog dialog = builder.create();
-                                            dialog.show();
-
-                                        }
-                                    }
-                                });
+                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                builder.setMessage(R.string.login_error_message);
+                                builder.setTitle(R.string.login_error_title);
+                                builder.setPositiveButton(android.R.string.ok, null);
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
                             }
+
                         }
                     });
+
+
                 }
 
             }
